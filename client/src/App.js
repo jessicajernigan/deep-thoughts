@@ -13,7 +13,16 @@ import Signup from './pages/Signup';
 
 
 const client = new ApolloClient({
-  uri: '/graphql' // URI stands for "Uniform Resource Identifier."
+  request: operation => {
+    const token = localStorage.getItem('id_token');
+
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    });
+  },
+  uri: '/graphql'
 });
 
 
